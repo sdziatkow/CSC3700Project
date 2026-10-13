@@ -1,11 +1,16 @@
 # Default ignored files
 /shelf/
-/workspace.xml
+.idea
+
 # Editor-based HTTP Client requests
 /httpRequests/
+
 # Ignored default folder with query files
 /queries/
-# Datasource local storage ignored files
-/dataSources/
-/dataSources.local.xml
-/app/node_modules/
+
+# Project specifications
+/instructions
+
+# React App
+/courseScheduler/node_modules
+/courseScheduler/.env
