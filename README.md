@@ -21,7 +21,7 @@ Purpose: Create a fully functional web-application using the React framework for
    2. Type: "npm install" and enter.
  - Open a new terminal window.
    1. Path inside the courseScheduler folder.
-   2. Unless already installed, Type: "npm install json-server" and enter.
+   2. Unless already installed, type: "npm install json-server" and enter.
    3. After finishing type: "json-server --watch db/db.json --port NNNN" (where NNNN is a 4-digit number) and enter.
  - Create a file within courseScheduler, name it: ".env", and paste this in the file: "VITE_API_BASE_URL=http://localhost:NNNN". Replace NNNN to match above.
  - Go back to the first terminal and type: "npm run dev" and enter.
