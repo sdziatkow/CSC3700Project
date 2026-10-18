@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import {DisplayOptions} from "../util/DisplayOptions.js";
 import ProgressSummary from "./ProgressSummary.jsx";
 import CourseCard from "./CourseCard.jsx";
@@ -14,12 +14,15 @@ function CourseList({courses, prereqNumMap, onSave, savedCompleted}) {
     // Display options to be mapped to radio buttons for course display filtering.
     const [currOption, setCurrOption] = useState(DisplayOptions.ALL);
 
+    // Shows when no change to completedIDs has been made since last save.
+    const [showSaveText, setSaveTextShowing] = useState(true);
+
     // Keep track of which courses are completed.
     const [completedIDs, setCompletedIDs] = useState(savedCompleted);
     const onCompletionChange = (course, isCompleted) => {
-        console.log("in completion change");
         if (!isCompleted) setCompletedIDs([...completedIDs, course.id]);
         else setCompletedIDs(completedIDs.filter((id) => id !== course.id));
+        if (showSaveText) setSaveTextShowing(false);
     };
 
     // Used to compute whether a course is available.
@@ -27,21 +30,10 @@ function CourseList({courses, prereqNumMap, onSave, savedCompleted}) {
         return course.prerequisites.every((prereqId) => completedIDs.includes(String(prereqId)));
     };
 
-    const [showSaveText, setSaveTextShowing] = useState(false);
     const handleSaveBtn = () => {
-        if (showSaveText) return;
         onSave(completedIDs);
         setSaveTextShowing(true);
     };
-
-    // Each time Save Btn is clicked -> showSaveText -> wait 2s -> !showSaveText
-    useEffect(() => {
-        if (!showSaveText) return; // Dont useEffect when value changes to false.
-        const timeOutID = setTimeout(() => {
-            setSaveTextShowing(false);
-        }, 2000)
-        return () => {clearTimeout(timeOutID);}; // To avoid memory leaks.
-    }, [showSaveText]);
 
     // Filter courses based on user selection.
     let dispCourses = courses;
@@ -88,15 +80,19 @@ function CourseList({courses, prereqNumMap, onSave, savedCompleted}) {
                 </span>
                 <span className="ms-auto">
                     {/* Save text and Button */}
-                    <span className="text-success fw-medium fst-italic mx-3">
-                        {showSaveText ? "Progress Saved" : null}
-                    </span>
-                    <button
-                        className="btn btn-success border border-3 border-success rounded"
-                        onClick={handleSaveBtn}
-                    >
-                        Save
-                    </button>
+                    {showSaveText ?
+                        <span className="d-inline-block text-success fw-medium fst-italic">
+                            {showSaveText ? "Progress Saved" : null}
+                        </span>
+                        :
+                        <button
+                            className="btn btn-success border border-3 border-success rounded"
+                            disabled={showSaveText}
+                            onClick={handleSaveBtn}
+                        >
+                            Save
+                        </button>
+                    }
                 </span>
             </div>
 
