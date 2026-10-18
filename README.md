@@ -11,9 +11,11 @@ Purpose: Create a fully functional web-application using the React framework for
  - WebStorm - JetBrains IDE (or an IDE you know how to use)
 
 ## Download Instructions
-
- - Create a new JavaScript project in WebStorm.
- - Download this project as a zip file and copy ONLY the courseScheduler folder into your project folder.
+ - Either:
+   - Create a new JavaScript project in WebStorm.
+     * Download this project as a zip file and copy ONLY the courseScheduler folder into your project folder.
+   - Clone this project.
+     * Open this project with WebStorm.
  - In your project open the terminal using the WebStorm GUI.
    1. Path inside the courseScheduler folder.
    2. Type: "npm install" and enter.
