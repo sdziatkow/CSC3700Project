@@ -11,6 +11,8 @@
 # Project specifications
 /instructions
 
-# React App
+# React App.
 /courseScheduler/node_modules
 /courseScheduler/.env
+/courseScheduler/public
+/courseScheduler/package-lock.json
