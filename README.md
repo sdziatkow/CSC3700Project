@@ -12,7 +12,7 @@ Purpose: Create a fully functional web-application using the React framework for
 
 ## Download Instructions
 
- - Create a new project in WebStorm.
+ - Create a new JavaScript project in WebStorm.
  - Download this project as a zip file and copy ONLY the courseScheduler folder into your project folder.
  - In your project open the terminal using the WebStorm GUI.
    1. Path inside the courseScheduler folder.
