@@ -5,7 +5,6 @@ import CourseList from "../components/CourseList.jsx";
 
 /**
  * Parent component to CourseList
- * The displayed courses are changed with radio-buttons.
  * @returns {React.JSX.Element} A visual representation of Course Objects dependent on user input.
  */
 function HomePage() {

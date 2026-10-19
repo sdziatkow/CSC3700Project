@@ -4,6 +4,7 @@ import ProgressSummary from "./ProgressSummary.jsx";
 import CourseCard from "./CourseCard.jsx";
 
 /**
+ * Parent to components ProgressSummary and CourseCard.
  * @param courses An array of Course Objects.
  * @returns {React.JSX.Element} A visual representation of all given objects in grid format.
  */
@@ -26,7 +27,7 @@ function CourseList({courses, prereqNumMap, onSave, savedCompleted}) {
     };
 
     // Used to compute whether a course is available.
-    const isAvailable = (course, completed = completedIDs) => {
+    const isAvailable = (course) => {
         return course.prerequisites.every((prereqId) => completedIDs.includes(String(prereqId)));
     };
 
