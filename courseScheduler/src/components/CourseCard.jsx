@@ -19,20 +19,21 @@ function CourseCard({course, prereqNames, totalCompleted, onCompletionChange, is
     if (complete) cardTheme = CourseStateTheme.COMPLETED;
     else if (available) cardTheme = CourseStateTheme.AVAILABLE;
 
-    /* Specific case: Completed checkbox becomes un-checked NOT BY USER causing data inconsistency.
+    /* Specific case: Completed checkbox becomes disabled without becoming un-checked causing data inconsistency.
       How it happens -
         1. User checks "completed" which runs onChange -> onCompletionChange:
             complete now equals true; this CourseCard props.course.id is now tracked by CourseList.
-        2. available now equals true (due to prereq system).
+        2. available now equals true for some other course (due to prereq system).
         3. User checks "completed" on Other CourseCard.
         PROBLEM ---
             User un-checks "completed" on Original CourseCard:
                 complete now equals false; this CourseCard props.course.id is not tracked by CourseList.
                 available now equals FALSE on CourseCards that depend on this one (due to prereq system):
-                    Those that changed become un-checked, BUT NOT BY THE USER - onChange never runs.
+                    Those that changed become disabled, BUT NOT UN-CHECKED - onChange never runs.
                     Their isCompleted remains true; still tracked by HomePage.
         SOLUTION ---
-            Each time given completedIDs changes, check if this course is NOT available while still being completed.
+            Each time given totalCompleted changes:
+                check if this course is NOT available AND completed.
             If a prerequisite's completion status was removed, then this course will no longer be available.
                 If so, and this course is marked completed, remove its completion status with given state function
                 onCompletionChange.
