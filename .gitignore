@@ -1,16 +1,15 @@
-# Default ignored files
-/shelf/
+# Default ignored files.
 .idea
 
-# Editor-based HTTP Client requests
-/httpRequests/
-
-# Ignored default folder with query files
-/queries/
-
-# Project specifications
+# Project specifications.
 /instructions
 
 # React App.
 /courseScheduler/node_modules
+/courseScheduler/package-lock.json
 /courseScheduler/.env
+
+# Server.
+/courseScheduler/server/node_modules
+/courseScheduler/server/.env
+/courseScheduler/server/package-lock.json
