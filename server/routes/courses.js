@@ -34,11 +34,13 @@ router.get('/courses/:id', async (req, res) => {
 
 // CREATE new course.
 router.post('/courses', async (req, res) => {
-    const isValid = await validateCourse(req.body, pool);
-    if (!isValid) {
-        return res.status(400).json({error: `Given course information is invalid.`});
-    }
     const {number, title, credits, description, prerequisites} = req.body;
+    try {
+        await validateCourse({number, title, credits, description, prerequisites}, pool);
+    }
+    catch (err) {
+        return res.status(400).json({error: err.message});
+    }
     try {
 
         // Insert new course into courses table and store newly generated ID in [result].
@@ -66,11 +68,13 @@ router.post('/courses', async (req, res) => {
 
 // OVERWRITE course with given ":id".
 router.put('/courses/:id', async (req, res) => {
-    const isValid = await validateCourse(req.body, pool);
-    if (!isValid) {
-        return res.status(400).json({error: `Given course information is invalid.`});
-    }
     const {number, title, credits, description, prerequisites} = req.body;
+    try {
+        await validateCourse({number, title, credits, description, prerequisites}, pool);
+    }
+    catch (err) {
+        return res.status(400).json({error: err.message});
+    }
     const id = parseInt(req.params.id);
     try {
         const [result] = await pool.query(

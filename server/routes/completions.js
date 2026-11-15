@@ -21,8 +21,8 @@ router.get('/completions', async (req, res) => {
 
 //PUT--------------------------------------------------------------------------------------------------------------------
 
-// OVERWRITE completed course IDs.
-router.post('/completions', async (req, res) => {
+// UPDATE completed course IDs.
+router.put('/completions', async (req, res) => {
     try {
         const allCourses = await getCoursesWithPrereqs(pool);
         const {completed} = req.body;
