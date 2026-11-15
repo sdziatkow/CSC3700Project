@@ -1,6 +1,6 @@
+import {useState, useEffect} from "react";
 import useFetch from "../hooks/useFetch.js";
 import usePrereqNumMap from "../util/usePrereqNumMap.js";
-import {LocalStgIDs} from "../util/LocalStgIDs.js";
 import CourseList from "../components/CourseList.jsx";
 
 /**
@@ -21,18 +21,14 @@ function HomePage() {
     // Generate Map Object CourseID -> [coursePrerequisite.number, ...]
     const {prereqNumMap} = usePrereqNumMap(allCourses, hasCourses);
 
-    // For saving the completed state on CourseList.
-    const onCompletedSave = (completed) => {
-        localStorage.setItem(LocalStgIDs.COMPLETED_COURSES, JSON.stringify(completed));
-    }
+    // Load completed state from server.
+    const { data: savedCompletions } = useFetch(`${BASE_URL}/completions`);
+    const [completed, setCompleted] = useState([]);
 
-    // Attempt to load completed state from local storage, if returns null, set as empty array and store it.
-    let savedCompletedCourses = JSON.parse(localStorage.getItem(LocalStgIDs.COMPLETED_COURSES));
-    if (!Array.isArray(savedCompletedCourses)) {
-        savedCompletedCourses = [];
-        onCompletedSave(savedCompletedCourses);
-    }
-
+    // NOTE: when the fetch finishes, copy the server's list into editable state
+    useEffect(() => {
+        if (Array.isArray(savedCompletions)) setCompleted(savedCompletions)
+    }, [savedCompletions]);
 
     return (
         <div className="container-lg">
@@ -42,8 +38,8 @@ function HomePage() {
             {hasCourses &&
                 <CourseList courses={allCourses}
                             prereqNumMap={prereqNumMap}
-                            savedCompleted={savedCompletedCourses}
-                            onSave={onCompletedSave}
+                            savedCompletions={completed}
+                            setSavedCompletions={setCompleted}
                 />
             }
         </div>

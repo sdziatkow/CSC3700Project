@@ -32,7 +32,7 @@ function AboutPage() {
             </div>
             <div className="row">
                 <div className="col-4 fw-bolder">Version</div>
-                <div className="col-2">1.0.0</div>
+                <div className="col-2">2.0.0</div>
             </div>
         </div>
     )

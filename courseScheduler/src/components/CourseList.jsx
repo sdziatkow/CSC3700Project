@@ -8,32 +8,54 @@ import CourseCard from "./CourseCard.jsx";
  * @param courses An array of Course Objects.
  * @returns {React.JSX.Element} A visual representation of all given objects in grid format.
  */
-function CourseList({courses, prereqNumMap, onSave, savedCompleted}) {
+function CourseList({courses, prereqNumMap, savedCompletions}) {
     const TOTAL_COL_SPACE = 12;
     const MAX_COLS = 4;
 
     // Display options to be mapped to radio buttons for course display filtering.
     const [currOption, setCurrOption] = useState(DisplayOptions.ALL);
 
-    // Shows when no change to completedIDs has been made since last save.
-    const [showSaveText, setSaveTextShowing] = useState(true);
+    // For keeping track of save status.
+    const [isSaving, setIsSaving] = useState(false);
+    const [saveError, setSaveError] = useState(null);
 
     // Keep track of which courses are completed.
-    const [completedIDs, setCompletedIDs] = useState(savedCompleted);
+    const [completedIDs, setCompletedIDs] = useState(savedCompletions);
     const onCompletionChange = (course, isCompleted) => {
         if (!isCompleted) setCompletedIDs([...completedIDs, course.id]);
         else setCompletedIDs(completedIDs.filter((id) => id !== course.id));
-        if (showSaveText) setSaveTextShowing(false);
     };
 
     // Used to compute whether a course is available.
     const isAvailable = (course) => {
-        return course.prerequisites.every((prereqId) => completedIDs.includes(String(prereqId)));
+        return course.prerequisites.every((prereqId) => completedIDs.includes(prereqId));
     };
 
-    const handleSaveBtn = () => {
-        onSave(completedIDs);
-        setSaveTextShowing(true);
+    const handleSaveBtn = async (e) => {
+        e.preventDefault();
+        const BASE_URL = import.meta.env.VITE_API_BASE_URL;
+        const URL = `${BASE_URL}/completions`;
+        const completed = {
+            completed: completedIDs
+        };
+        try {
+            setIsSaving(true);
+            const res = await fetch(URL, {
+                method: "PUT",
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(completed)
+            });
+            if (!res.ok) {
+                const body = await res.json().catch(() => ({}))
+                throw new Error(body.error || `Save failed: ${res.status}`)
+            }
+        }
+        catch (err) {
+            setSaveError(err.message);
+        }
+        finally {
+            setIsSaving(false);
+        }
     };
 
     // Filter courses based on user selection.
@@ -80,20 +102,27 @@ function CourseList({courses, prereqNumMap, onSave, savedCompleted}) {
                     ))}
                 </span>
                 <span className="ms-auto">
-                    {/* Save text and Button */}
-                    {showSaveText ?
+                    {/* Save Button and status text */}
+                    <span className={"mx-lg-1"}>
+                        {!saveError && (
                         <span className="d-inline-block text-success fw-medium fst-italic">
-                            {showSaveText ? "Progress Saved" : null}
+                            {isSaving && "Saving..."}
                         </span>
-                        :
-                        <button
-                            className="btn btn-success border border-3 border-success rounded"
-                            disabled={showSaveText}
-                            onClick={handleSaveBtn}
-                        >
-                            Save
-                        </button>
-                    }
+                        )}
+                        {saveError && (
+                        <span className="d-inline-block text-danger fw-medium fst-italic">
+                            {saveError}
+                        </span>
+                        )}
+                    </span>
+                    <button
+                        className="btn btn-success border border-3 border-success rounded"
+                        disabled={isSaving}
+                        type="submit"
+                        onClick={handleSaveBtn}
+                    >
+                        Save
+                    </button>
                 </span>
             </div>
 
