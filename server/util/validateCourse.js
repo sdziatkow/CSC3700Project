@@ -18,4 +18,12 @@ function isValidPrereqs(prereqs, allIDs) {
     if (!prereqsExist) return false;
     return prereqs.every((prereq) =>  allIDs.includes(prereq)); // Ensure prereq IDs actually exist in the DB.
 }
-module.exports = {validateCourse};
+
+// courses: array in the Section 5 shape, completed: array of ids
+const isValidCompletionSet = (courses, completed) => {
+    return completed.every((id) => {
+        const course = courses.find((c) => c.id === id);
+        return course && course.prerequisites.every((p) => completed.includes(p));
+    });
+}
+module.exports = {validateCourse, isValidCompletionSet};

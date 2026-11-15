@@ -10,6 +10,6 @@
 /courseScheduler/.env
 
 # Server.
-/courseScheduler/server/node_modules
-/courseScheduler/server/.env
-/courseScheduler/server/package-lock.json
+/server/node_modules
+/server/.env
+/server/package-lock.json

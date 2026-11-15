@@ -50,3 +50,11 @@ Content-Type: application/json
 
 ### 8. DELETE -- remove course with specified ID.
 DELETE {{baseUrl}}/courses/23
+
+### 9. POST -- add completions set.
+POST {{baseUrl}}/completions
+Content-Type: application/json
+
+{
+  "completed": [1, 2, 6]
+}

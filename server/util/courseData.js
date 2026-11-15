@@ -27,6 +27,16 @@ async function getCoursesWithPrereqs(pool, id) {
     return result.length > 0 ? result[0] : null
 }
 
+// Replaces this course's prerequisites with the given prereq IDs.
+async function replacePrerequisites(pool, courseID, prereqIDs) {
+    await pool.query('DELETE FROM prerequisites WHERE course_id = ?', [courseID])
+
+    if (prereqIDs.length > 0) {
+        const rows = prereqIDs.map(id => [courseID, id]);   // [1, 3] becomes [[1,1], [1,3]]
+        await pool.query('INSERT INTO prerequisites (course_id, prereq_id) VALUES ?', [rows]);
+    }
+}
+
 // Replaces this user's completions with the course ids in courseIds.
 async function replaceCompletions(pool, userId, courseIds) {
     await pool.query('DELETE FROM completions WHERE user_id = ?', [userId])
@@ -37,13 +47,4 @@ async function replaceCompletions(pool, userId, courseIds) {
     }
 }
 
-// Replaces this course's prerequisites with the given prereq IDs.
-async function replacePrerequisites(pool, courseID, prereqIDs) {
-    await pool.query('DELETE FROM prerequisites WHERE course_id = ?', [courseID])
-
-    if (prereqIDs.length > 0) {
-        const rows = prereqIDs.map(id => [courseID, id]);   // [1, 3] becomes [[1,1], [1,3]]
-        await pool.query('INSERT INTO prerequisites (course_id, prereq_id) VALUES ?', [rows]);
-    }
-}
 module.exports = { getCoursesWithPrereqs, replaceCompletions, replacePrerequisites }
