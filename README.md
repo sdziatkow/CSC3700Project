@@ -13,18 +13,18 @@ Purpose: Create a fully functional web-application using the React framework for
 ## Download Instructions
  - Either:
    - Create a new JavaScript project in WebStorm.
-     * Download this project as a zip file and copy ONLY the courseScheduler folder into your project folder.
+     * Download this project as a zip file and copy all contents into the root folder of your project.
    - Clone this project.
      * Open this project with WebStorm.
  - In your project open the terminal using the WebStorm GUI.
    1. Path inside the courseScheduler folder.
-   2. Type: "npm install" and enter.
+   2. Type: 'npm install' and [enter]
  - Open a new terminal window.
-   1. Path inside the courseScheduler folder.
-   2. Unless already installed, type: "npm install json-server" and enter.
-   3. After finishing type: "json-server --watch db/db.json --port NNNN" (where NNNN is a 4-digit number) and enter.
- - Create a file within courseScheduler, name it: ".env", and paste this in the file: "VITE_API_BASE_URL=http://localhost:NNNN". Replace NNNN to match above.
- - Go back to the first terminal and type: "npm run dev" and enter.
-   1. Type: "o" and enter to open the web-application in your browser.
+   1. Path inside the server folder.
+   2. Type: 'npm install' and [enter].
+ - Use the .env.example files located in each sub-folder to create your own .env files.
+ - Within the first terminal, type: 'npm run dev' and [enter]
+ - Within the second terminal, type: 'npm run start' and [enter]
+ - Each terminal should then display a clickable link to open in your browser.
 
 ---
