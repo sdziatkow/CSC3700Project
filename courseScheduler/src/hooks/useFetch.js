@@ -13,9 +13,11 @@ function useFetch(url) {
         fetch(url)
             .then(resp => {
                 if (!resp.ok) {
-                    let msg = `HTTP Error: ${resp.statusText}`
-                    console.log(msg);
-                    throw new Error(msg);
+                    return resp.json()
+                        .catch(() => ({}))
+                        .then(body => {
+                            throw new Error(body.error || `Fetch failed: ${resp.status}`);
+                    });
                 }
                 return resp.json();
             })
