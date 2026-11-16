@@ -84,16 +84,36 @@ Content-Type: application/json
   "prerequisites": [9, 10]
 }
 
-### 11. DELETE -- remove course with specified ID -- expect 200 and deleted course object with prerequisites.
+### 11. PUT -- update course that does not exist -- expect 404 Course Not Found. Given ID: 9999.
+PUT {{baseUrl}}/courses/9999
+Content-Type: application/json
+
+{
+  "number": "CSC9999",
+  "title": "DNE",
+  "credits": 0,
+  "description": "This course does not exist",
+  "prerequisites": [9, 10]
+}
+
+### 12. DELETE -- remove course with specified ID -- expect 200 and deleted course object with prerequisites.
 DELETE {{baseUrl}}/courses/26
 
-### 12. GET array of completed course IDs -- expect 200 and completions array.
+### 13. GET array of completed course IDs -- expect 200 and completions array.
 GET {{baseUrl}}/completions
 
-### 13. PUT -- update completions set -- expect 200 and new completions array.
+### 14. PUT -- update completions set -- expect 200 and new completions array.
 PUT {{baseUrl}}/completions
 Content-Type: application/json
 
 {
   "completed": [1, 2]
+}
+
+### 15. PUT -- update completions set with non-existing prereq -- expect 400 Given completion information is invalid.
+PUT {{baseUrl}}/completions
+Content-Type: application/json
+
+{
+  "completed": [1000]
 }

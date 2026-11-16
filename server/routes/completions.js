@@ -3,13 +3,14 @@ const router = express.Router();
 const pool = require('../util/database');
 const {getCoursesWithPrereqs, replaceCompletions} = require('../util/courseData');
 const {isValidCompletionSet} = require('../util/validateCourse');
+const USER_ID = 1; // Future version M3: replaced by the logged-in user's id.
 
 //GET--------------------------------------------------------------------------------------------------------------------
 
 // ALL completed course IDs.
 router.get('/completions', async (req, res) => {
     try {
-        const [rows] = await pool.query('SELECT course_id FROM completions');
+        const [rows] = await pool.query('SELECT course_id FROM completions WHERE user_id = ?', USER_ID);
         let asArray = rows.map(row => row.course_id);
         res.status(200).json(asArray);
     }
@@ -30,7 +31,7 @@ router.put('/completions', async (req, res) => {
         if (!isValid) {
             return res.status(400).json({error: `Given completion information is invalid.`});
         }
-        await replaceCompletions(pool, 1, completed);
+        await replaceCompletions(pool, USER_ID, completed);
         const [rows] = await pool.query('SELECT course_id FROM completions');
         let asArray = rows.map(row => row.course_id);
         res.status(200).json(asArray);
