@@ -11,7 +11,7 @@ function HomePage() {
 
     // Send GET request for all course data and get its results.
     const BASE_URL = import.meta.env.VITE_API_BASE_URL;
-    const URL = `${BASE_URL}/courses`;
+    const URL = `${BASE_URL}/api/courses`;
     const {data, isPending, error} = useFetch(URL);
 
     // Ensure data is an Array and is not empty.
@@ -22,7 +22,7 @@ function HomePage() {
     const {prereqNumMap} = usePrereqNumMap(allCourses, hasCourses);
 
     // Load completed state from server.
-    const { data: savedCompletions } = useFetch(`${BASE_URL}/completions`);
+    const { data: savedCompletions } = useFetch(`${BASE_URL}/api/completions`);
     const [completed, setCompleted] = useState([]);
 
     // NOTE: when the fetch finishes, copy the server's list into editable state

@@ -34,7 +34,7 @@ function CourseList({courses, prereqNumMap, savedCompletions}) {
     const handleSaveBtn = async (e) => {
         e.preventDefault();
         const BASE_URL = import.meta.env.VITE_API_BASE_URL;
-        const URL = `${BASE_URL}/completions`;
+        const URL = `${BASE_URL}/api/completions`;
         const completed = {
             completed: completedIDs
         };
