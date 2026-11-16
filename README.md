@@ -22,6 +22,7 @@ Purpose: Create a fully functional web-application using the React framework for
  - Open a new terminal window.
    1. Path inside the server folder.
    2. Type: 'npm install' and [enter].
+ - Use the sql files within the server folder to create a database.
  - Use the .env.example files located in each sub-folder to create your own .env files.
  - Within the first terminal, type: 'npm run dev' and [enter]
  - Within the second terminal, type: 'npm run start' and [enter]
